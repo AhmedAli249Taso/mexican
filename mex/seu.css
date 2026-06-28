@@ -1,0 +1,384 @@
+:root {
+    --primary-color: #2e3192;
+    --primary-hover: #1e2061;
+    --bg-login: #f4f6f9;
+    --bg-dash: #eef2f5;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --input-focus: #3b82f6;
+    --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    --radius-lg: 24px;
+    --radius-md: 12px;
+    --text-green: #0a846d;
+    --orange-brand: #e2572b;
+    --icon-gray: #94a3b8; /* الرمادي الأنيق الموحد للأيقونات بدلاً من الإيموجي الملّون */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.login-mode {
+    background-color: var(--bg-login);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 1rem;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body.dashboard-mode {
+    background-color: var(--bg-dash);
+    display: block;
+    min-height: 100vh;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.hidden { display: none !important; }
+
+/* ==========================================================================
+   ستيلات الـ Sidebar وقسم الكبسولة حقت اللغات
+   ========================================================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.08);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth);
+    overflow-y: auto;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 99;
+}
+
+.sidebar-user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem;
+}
+
+.user-info-block {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+    background-size: cover;
+}
+
+.user-names {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-full-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.user-last-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.faculty-badge {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    padding: 0.2rem 1.25rem 0.75rem 1.25rem;
+}
+
+.sidebar-menu-list {
+    list-style: none;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #475569;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-item:hover { background-color: #f8fafc; }
+.menu-item.active { background-color: var(--orange-brand); color: #ffffff; }
+
+.menu-icon {
+    margin-right: 0.75rem;
+    font-size: 1.15rem;
+    width: 22px;
+    text-align: center;
+    color: var(--icon-gray);
+    display: inline-block;
+}
+
+.menu-item.active .menu-icon { color: #ffffff; }
+
+.notif-badge {
+    position: absolute;
+    right: 12px;
+    background-color: var(--orange-brand);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+.menu-item.active .notif-badge { background-color: #ffffff; color: var(--orange-brand); }
+
+.menu-divider {
+    border-top: 1px dashed #cbd5e1;
+    margin: 0.75rem 0.5rem;
+    height: 0;
+}
+
+/* ستيل الكبسولة المطابق تماماً للصورة image_707b5d.png تحت الخط طوالي */
+.sidebar-lang-pill-container {
+    margin: 0.5rem 1rem 1.5rem 1rem;
+    background-color: #f1f5f9; /* الخلفية الرمادية الفاتحة للحاوية */
+    padding: 4px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.lang-pill-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    border: none;
+    background: transparent;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.lang-pill-btn.active {
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    color: #1e293b;
+}
+
+.flag-pill-img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
+}
+
+/* ==========================================================================
+   بقية ستيلات الصفحات (Login + Dashboard Content)
+   ========================================================================== */
+.portal-container { width: 100%; max-width: 400px; margin: auto; display: flex; flex-direction: column; align-items: center; }
+.brand-header { text-align: center; margin-bottom: 1.5rem; }
+.seu-real-logo { width: 95px; height: auto; display: block; margin: 0 auto; }
+.brand-subtext { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.portal-title { font-size: 1.75rem; font-weight: 700; color: var(--text-main); text-align: center; margin-bottom: 1.5rem; }
+.login-card { background-color: var(--card-bg); width: 100%; padding: 2.5rem 2rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.form-group { margin-bottom: 1.25rem; }
+.input-field { width: 100%; padding: 1.1rem 1.2rem; font-size: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); outline: none; }
+.input-field:focus { border-color: var(--input-focus); }
+.btn-submit { width: 100%; padding: 1rem; font-size: 1.05rem; font-weight: 600; color: #ffffff; background-color: var(--primary-color); border: none; border-radius: var(--radius-md); cursor: pointer; }
+.btn-submit:hover { background-color: var(--primary-hover); }
+.form-options { margin-top: 1.25rem; }
+.link-forgot { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; }
+.link-forgot:hover { text-decoration: underline; color: var(--primary-color); }
+
+.lang-switcher-container { display: flex; gap: 0.75rem; width: 100%; margin-top: 1.25rem; }
+.btn-lang { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.9rem; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.95rem; font-weight: 500; cursor: pointer; }
+.btn-lang.active { border: 2px solid var(--primary-color); color: var(--primary-color); font-weight: 600; }
+.flag-circle { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; }
+
+.app-store-footer { display: flex; justify-content: center; gap: 0.6rem; margin-top: 2rem; width: 100%; }
+.badge-link { display: flex; align-items: center; justify-content: center; text-decoration: none; transition: var(--transition-smooth); }
+.badge-link:hover { transform: translateY(-2px); }
+.store-badge-img { width: 130px; height: auto; object-fit: contain; display: block; }
+
+.dash-navbar { background-color: #ffffff; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 10; }
+.menu-btn { font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0 0.5rem; }
+.nav-center { font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
+.seu-dash-logo { width: 32px; height: auto; }
+
+.dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 1.25rem; max-width: 800px; margin: 0 auto; }
+.grid-col-2 { grid-column: span 2; }
+.dash-card { background-color: var(--card-bg); border-radius: 16px; padding: 1.25rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.card-title { font-size: 1.05rem; font-weight: 700; color: var(--text-main); }
+
+.card-nav-btns { display: flex; gap: 0.5rem; }
+.nav-arrow { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e2e8f0; background-color: #ffffff; color: #1e293b; font-size: 1.1rem; font-weight: 400; display: flex; align-items: center; justify-content: center; cursor: pointer; padding-bottom: 2px; transition: var(--transition-smooth); }
+.nav-arrow:hover { background-color: #f8fafc; border-color: #cbd5e1; }
+
+.timetable-content { display: flex; flex-direction: column; gap: 0.4rem; }
+.time-row { display: flex; gap: 1rem; align-items: center; margin-bottom: 0.25rem; }
+.time-badge { font-size: 1.4rem; font-weight: 700; color: var(--text-green); }
+.day-badge { font-size: 1.2rem; font-weight: 600; }
+.subject-title { font-size: 1.1rem; font-weight: 600; color: #334155; }
+.prof-name, .room-info, .duration, .session-type { font-size: 0.9rem; color: var(--text-muted); }
+
+.balance-content { text-align: left; }
+.balance-amount { font-size: 2.2rem; font-weight: 700; color: #000; margin-bottom: 0.1rem; }
+.currency { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; margin-bottom: 1rem; }
+.debt-section { border-top: 1px solid var(--border-color); padding-top: 0.75rem; }
+.debt-title { font-size: 0.95rem; color: var(--text-main); font-weight: 600; }
+.debt-amount { font-size: 1.3rem; font-weight: 700; margin-top: 0.2rem; }
+
+.command-box { background-color: #fafafa; border: 1px solid var(--border-color); padding: 0.85rem; border-radius: 12px; }
+.cmd-id { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+.cmd-text { font-size: 0.95rem; font-weight: 600; color: #334155; margin: 0.25rem 0; }
+.cmd-date { font-size: 0.8rem; color: #94a3b8; }
+.card-dots { display: flex; justify-content: center; gap: 0.4rem; margin-top: 1rem; }
+.dot { width: 6px; height: 6px; background-color: #cbd5e1; border-radius: 50%; }
+.dot.active { background-color: var(--input-focus); width: 14px; border-radius: 4px; }
+
+.messages-table, .assignments-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+.messages-table th, .assignments-table th { color: #94a3b8; font-weight: 600; padding-bottom: 0.5rem; }
+.messages-table td, .assignments-table td { padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; color: #334155; font-weight: 500; }
+.bg-highlight { background-color: #f8fafc; }
+.geo-text { text-align: right; }
+.subject-cell { font-weight: 600; color: var(--primary-color); }
+
+.floating-chat-btn { position: fixed; bottom: 20px; right: 20px; background-color: var(--orange-brand); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.4rem; box-shadow: 0 4px 12px rgba(226,87,43,0.3); cursor: pointer; z-index: 90; }
+
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+.modal-card { background-color: #ffffff; width: 100%; max-width: 380px; padding: 2rem 1.5rem; border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); text-align: center; }
+.modal-card h2 { font-size: 1.6rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem; }
+.modal-text { font-size: 0.9rem; line-height: 1.5; color: #475569; margin-bottom: 1.5rem; font-weight: 500; text-align: left; }
+.btn-modal-agree { width: 100%; padding: 0.85rem; background-color: #3b46a7; color: #fff; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+
+@media (max-width: 600px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .grid-col-2 { grid-column: span 1; }
+}
+.sidebar.open {
+    left: 0 !important;
+    z-index: 9999 !important; /* ده بيضمن إن القائمة تظهر فوق الداشبورد */
+}
+.sidebar-overlay.hidden {
+    display: none !important;
+}
+.sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998; /* أقل من الـ Sidebar بـ 1 */
+}
+
+/* تنسيق الـ Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 2.5rem; /* زدنا المسافة شوية عشان يكون مريح */
+    border-radius: 20px; /* تدوير الحواف زي الأصل */
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* ظل أنعم */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* نوع الخط القريب للأصل */
+}
+
+/* لون زر الـ "I have read and agree" في الأصل أزرق غامق (Navy) */
+.btn-submit {
+    background-color: #2e3192; /* ده اللون الأزرق بتاع SEU */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+/* تنسيق النص جوه الـ Modal */
+.modal-content h3 { 
+    color: #1a1a1a; 
+    font-size: 1.5rem; 
+    margin-bottom: 1.5rem; 
+}
+
+.modal-content p { 
+    color: #555; 
+    line-height: 1.6; 
+    font-size: 0.95rem; 
+}
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 { margin-bottom: 1rem; color: var(--primary-color); }
+.modal-content p { margin-bottom: 1.5rem; color: var(--text-muted); }

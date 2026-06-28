@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEU Portal - Personal Info</title>
+    <link rel="stylesheet" href="seu.css">
+    <style>
+        :root {
+            --bg-dash: #eef2f5;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --orange-brand: #e2572b;
+            --radius-lg: 24px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
+        body { background-color: var(--bg-dash); min-height: 100vh; padding-top: 60px; }
+        .hidden { display: none !important; }
+
+        /* Navbar */
+        .dash-navbar { background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03); position: fixed; top:0; left:0; right:0; height:60px; z-index: 100; }
+        .menu-btn { font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text-muted); }
+        .seu-dash-logo { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+
+        /* Sidebar */
+        .sidebar { position: fixed; top: 0; left: -280px; width: 280px; height: 100vh; background: #fff; box-shadow: 4px 0 15px rgba(0,0,0,0.08); z-index: 200; display: flex; flex-direction: column; transition: left 0.3s ease; }
+        .sidebar.open { left: 0; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.3); z-index: 150; }
+        .sidebar-user-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; }
+        .avatar-placeholder { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; }
+        .sidebar-menu-list { list-style: none; padding: 0 0.5rem; }
+        .menu-item { padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; border-radius: 8px; color: #475569; }
+        .menu-item.active { background: var(--orange-brand); color: #fff; }
+
+        /* الهيدر الموزون للتلفون كربون من الصورتين المرفقتين */
+        .personal-info-header {
+            background-color: #fff;
+            border-radius: var(--radius-lg);
+            margin: 1.25rem 1rem;
+            padding: 1.5rem 1.25rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            position: relative;
+        }
+        .profile-container-flex {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            position: relative;
+        }
+        .profile-big-avatar {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* الدائرة الخضراء البعيدة المظبوطة مقاس تلفون */
+        .status-dot-phone {
+            position: absolute;
+            right: 5px;
+            top: 25px;
+            width: 28px;
+            height: 28px;
+            background-color: #62c354;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .profile-text-block { display: flex; flex-direction: column; gap: 0.2rem; }
+        .profile-text-block h2 { font-size: 1.05rem; font-weight: 700; color: #000; }
+        
+        /* الـ ID الشفاف والخطوط الغامقة الواضحة كربون */
+        .id-label-transparent { font-size: 1rem; color: rgba(30, 41, 59, 0.35); font-weight: 500; }
+        .id-value-dark { color: #000000; font-weight: 700; margin-left: 0.2rem; }
+        .passport-value-dark { display: block; font-size: 1rem; color: #000000; font-weight: 700; }
+
+        .profile-faculty-title { color: var(--orange-brand); font-weight: 700; font-size: 1.1rem; margin: 1.25rem 0 0.5rem 0; }
+        .profile-details-row { display: flex; justify-content: space-between; margin-top: 1rem; border-top: 1px solid #f1f5f9; padding-top: 0.75rem; }
+        .info-label { font-size: 0.8rem; color: var(--text-muted); }
+        .info-value { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0 1rem 2rem 1rem; }
+        .stat-card { background: #fff; border-radius: 16px; padding: 1.25rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .stat-number { font-size: 1.75rem; font-weight: 700; color: #1e293b; }
+        .stat-star { color: #0a846d; font-size: 1.1rem; }
+        .stat-sub { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); margin-top: 0.4rem; }
+
+        .progress-circle { position: relative; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; }
+        .progress-circle svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-circle circle { fill: none; stroke-width: 6; }
+        .progress-circle .bg { stroke: #edf2f7; }
+        .progress-circle .bar { stroke: #0a846d; stroke-dasharray: 220; stroke-dashoffset: 120; }
+        .circle-text { position: absolute; font-size: 1.5rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <nav class="dash-navbar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <span class="nav-center">Personal Info</span>
+        <img src="seu-logo.png.jpg" alt="Profile" class="seu-dash-logo">
+    </nav>
+
+    <div class="sidebar-overlay hidden" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebarMenu">
+        <div class="sidebar-user-header">
+            <div class="user-info-block">
+                <img src="WhatsApp Image 2026-06-28 at 13.19.16.jpeg" alt="Avatar" class="avatar-placeholder">
+                <div class="user-names">
+                    <span>Mohammed Sharafeldin Mohammed Alhassan </span>
+                </div>
+            </div>
+            <button style="background:none; border:none; font-size:1.5rem; color:#94a3b8;" onclick="toggleSidebar()">×</button>
+        </div>
+        <ul class="sidebar-menu-list">
+            <li class="menu-item" onclick="location.href='dashboard.html'">⚃ Dashboard</li>
+            <li class="menu-item active" onclick="location.href='personal-info.html'">👤 Personal info. Doc. Logs</li>
+        </ul>
+    </aside>
+
+    <div class="personal-info-header">
+        <div class="profile-container-flex">
+            <img src="WhatsApp Image 2026-06-28 at 13.19.16.jpeg" alt="Mohammed Sharafeldin" class="profile-big-avatar">
+            
+            <div class="profile-text-block">
+                <h2>Mohammed Sharafeldin Mohammed Alhassan</h2>
+                <div>
+                    <span class="id-label-transparent">ID</span>
+                    <span class="id-value-dark">48030</span>
+                </div>
+                <span class="passport-value-dark">P13355635</span>
+            </div>
+
+            <div class="status-dot-phone"></div>
+        </div>
+        
+        <div class="profile-faculty-title">Medicine</div>
+        
+        <div class="profile-details-row">
+            <div>
+                <div class="info-label">Email</div>
+                <div class="info-value" style="text-transform: none; font-size:0.85rem;">Msharafeldin54@seu.edu.ge</div>
+            </div>
+            <div>
+                <div class="info-label">password</div>
+                <div class="info-value">Sharafmex34</div>
+            </div>
+        </div>
+        <div style="text-align: left; margin-top: 0.5rem;">
+            <div class="info-label">Address</div>
+            <div class="info-value" style="color: #2e3192;">Mail.seu.edu.ge, Gmail.com</div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="progress-circle">
+                <svg><circle class="bg" cx="35" cy="35" r="30"></circle><circle class="bar" cx="35" cy="35" r="30"></circle></svg>
+                <div class="circle-text">2</div>
+            </div>
+            <div class="stat-sub">Current semester</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">1.54</div>
+            <div class="stat-star">★</div>
+            <div class="stat-sub">GPA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">25</div>
+            <div class="stat-star">★</div>
+            <div class="stat-sub">Program compatible credit</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">72 / C</div>
+            <div class="stat-star">★</div>
+            <div class="stat-sub">Average result</div>
+        </div>
+    </div>
+
+  <script>
+    function toggleSidebar() {
+        document.getElementById('sidebarMenu').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('hidden');
+    }
+</script>
+</body>
+</html>
